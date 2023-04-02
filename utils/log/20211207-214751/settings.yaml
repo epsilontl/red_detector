@@ -1,0 +1,42 @@
+dataset:
+  name: "Prophesee"
+  event_representation: "voxel_grid"  # ["histogram", "event_queue", "voxel_grid"]
+  prophesee:
+    dataset_path: "/home/wds/Desktop/exp_prophesee_still"
+    object_classes: "all"
+    feature_maps: [64, 32, 16, 8, 4]
+    steps: [8, 16, 32, 64, 128]
+    min_sizes: [32, 64, 128, 256, 512]
+#    max_sizes: [48, 96, 192, 384, 768]
+    max_sizes: [72, 144, 288, 576, 1152]
+    aspect_ratios: [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3]]  # h:w
+    anchor_boxes: [6, 6, 6, 6, 6]  # number of boxes per pixel, according to aspect_ratios
+    variance: [0.1, 0.2]
+    clip: True
+    height: 720
+    width: 1280
+    resize: 512  # data aug
+
+dir:
+  log: "log/"
+model:
+  # ["red"]
+  model_name: "red"
+optim:
+  seq_len: 10
+  epoch: 30
+  batch_size: 2
+  init_lr: 1e-4
+  exponential_decay: 0.98
+  tbptt: [-1]
+checkpoint:
+  save_dir: "/home/wds/Desktop/red_detector"  # save PR curve
+  resume_training: False
+  resume_file: ""
+  # Networks trained for classification can be reused as starting point for object detection networks on trained the same dataset
+  use_pretrained: False
+  pretrained_model: ""
+hardware:
+  # num_cpu_workers: {-1: auto, 0: main thread, >0: ...}
+  num_cpu_workers: -1
+  gpu_device: 0  # [0 or "cpu"]
